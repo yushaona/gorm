@@ -23,7 +23,21 @@ package main
 
 import (
     "github.com/yushaona/gorm"
+    "github.com/astaxie/beego/orm"
+	_ "github.com/go-sql-driver/mysql"
+    "github.com/yushaona/gjson"
 )
+
+var user, passwd, host, port, dbname = "root", "1111", "127.0.0.1", "3306", "test"
+var dns string = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?collation=utf8mb4_unicode_ci&interpolateParams=1&loc=Asia%%2FShanghai", user, passwd, host, port, dbname)
+
+func init() {
+	//注册驱动
+	orm.RegisterDriver("mysql", orm.DRMySQL)
+	//设置默认数据库
+	orm.RegisterDataBase("default", "mysql", dns, 30)
+}
+
 func main() {
 
 	q := gorm.NewQuery()
